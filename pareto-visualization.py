@@ -7,9 +7,10 @@
 # Explanation: 
 import random
 import time
-
-players = []
-num_players = 2
+import numpy as np
+import matplotlib.pyplot as plot
+from matplotlib import colors
+from matplotlib.ticker import PercentFormatter
 
 class player:
     def __init__(self, money):
@@ -17,11 +18,11 @@ class player:
         self.losses = 0
         self.money = money
     
-    def give_money(self):
+    def give_money(self, amount):
         self.losses += 1
         self.money = self.money - 1
     
-    def take_money(self):
+    def take_money(self, amount):
         self.wins = 0
         self.money = self.money + 1
     
@@ -40,33 +41,43 @@ def is_distributed(players):
 def elect_players(players):
     elected = []
 
-    for i in range(len(players)):
-        coin = flip_coin()
-        
-        if coin == 1:
-            elected.append(player)
-
+    for i in range(2):
+        index = random.randint(0, len(players) - 1)
+        elected.append(index)
+    #need to make sure we don't elect the same player twice
+    
+    return elected
 
 def main():
+    players = []
+    num_players = 5
+    max_pay = 10
+    elected = []
+
     for i in range(num_players):
-        players.append(player(10))
+        players.append(player(max_pay))
     
     distributed = is_distributed
 
     while distributed:
         coin = flip_coin()
         
+        elected.clear()
+        elected = elect_players(players)
+        amount = random.randint(1, max_pay)
+
         if coin == 0:
-            players[0].take_money()
-            players[1].give_money()
+            players[elected[0]].take_money(amount)
+            players[elected[1]].give_money(amount)
         
         if coin == 1:
-            players[0].give_money()
-            players[1].take_money()
+            players[elected[0]].give_money(amount)
+            players[elected[1]].take_money(amount)
         
-        players[0].check_balance()
-        players[1].check_balance()
+        for p in players:
+            p.check_balance()
 
         time.sleep(3)
 
+    
 main()
