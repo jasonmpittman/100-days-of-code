@@ -43,8 +43,10 @@ def elect_players(players):
 
     for i in range(2):
         index = random.randint(0, len(players) - 1)
-        elected.append(index)
-    #need to make sure we don't elect the same player twice
+        if index not in elected:
+            elected.append(index)
+        else:
+            elected.append(index + 1)
     
     return elected
 
@@ -74,8 +76,8 @@ def main():
             players[elected[0]].give_money(amount)
             players[elected[1]].take_money(amount)
         
-        for p in players:
-            p.check_balance()
+        #plot histogram here
+        
 
         time.sleep(3)
 
