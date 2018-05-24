@@ -13,9 +13,10 @@ from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
 
 class player:
-    def __init__(self, money):
+    def __init__(self, id, money):
         self.wins = 0
         self.losses = 0
+        self.id = id
         self.money = money
     
     def give_money(self, amount):
@@ -27,7 +28,6 @@ class player:
         self.money += amount
     
     def check_balance(self):
-        #print("My balance is: {0}".format(self.money))
         return self.money
 
 def flip_coin():
@@ -48,14 +48,17 @@ def elect_players(players):
 
 def main():
     players = []
-    num_players = 5000
+    num_players = 500
     max_pay = 1000
     elected = []
-    simulations = 10
+    simulations = 100
     balances = []
+    id = 0
+    ids = []
 
     for i in range(num_players):
-        players.append(player(max_pay))
+        players.append(player(id, max_pay))
+        id += 1
 
     for simulation in range(simulations):
         coin = flip_coin()
@@ -76,15 +79,14 @@ def main():
             if players[elected[1]].check_balance() != 0:
                 players[elected[1]].take_money(amount)
 
-        #time.sleep(3)
-
     for p in players:
-        print(p.wins)
         balances.append(p.check_balance())
+        ids.append(p.id)
 
-    #plot histogram here
-    #x = np.random.normal(size=1000)
-    plot.hist(balances, density=True, bins=30)
+    balances.sort(key=None, reverse=True)
+
+    plot.bar(ids, balances, align="center")
+    plot.xlabel("Players")
     plot.ylabel("Balances")
     plot.show() 
 main()
