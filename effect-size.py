@@ -3,8 +3,9 @@
 # Created on 05/25/2018
 # @author: Jason M. Pittman
 # @license: MIT-license
-# Purpose: 
-# Explanation:
+# Purpose: Calculator the effect size for two groups when using independent T-test statistic
+# Explanation: Group A is the treatment group and Group B is the control group
+import math
 
 def compute_mean(values):
     mu = 0
@@ -34,7 +35,7 @@ def compute_squared_diff(values, mu):
     return sqr_diffs
 
 def compute_pooled_std_dev(std_dev_a, std_dev_b):
-    pooled = ((std_dev_a + std_dev_b) / 2)**(1/2)
+    pooled = math.sqrt((std_dev_a**2 + std_dev_b**2) / 2)
     return pooled
 
 def compute_effect_size(mean_a, mean_b, pooled_std_dev):
