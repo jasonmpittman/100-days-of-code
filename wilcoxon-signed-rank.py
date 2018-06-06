@@ -15,13 +15,17 @@ def compute_treatment_diff(a, b):
     return differences
 
 def rank_differences(differences):
+    ranked_signed = []
+    ranked_abs = []
     ranked = []
 
     for d in differences:
-        ranked.append(abs(d))
-    
-    ranked.sort()
+        ranked_abs.append(abs(d))
+        ranked_signed.append(d)
 
+    ranked_abs.sort()
+
+    ranked = [ranked_abs, ranked_signed]
     return ranked
 
 def eval_signs():
@@ -45,6 +49,7 @@ def main():
     ranked = rank_differences(differences)
 
     print("The differences are: {0}".format(differences))
+    print("\n")
     print("The ranked differences are: {0}".format(ranked))
 
 main()
